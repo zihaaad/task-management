@@ -1,8 +1,11 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type {Metadata} from "next";
+import {Poppins} from "next/font/google";
 import "./globals.css";
+import Sidebar from "./Components/Sidebar/Sidebar";
+import GlobalStylesProvider from "./providers/GlobalStylesProvider";
+import ContextProvider from "./providers/ContextProvider";
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Poppins({subsets: ["latin"], weight: "400"});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -16,7 +19,19 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <script
+          src="https://kit.fontawesome.com/5df6411027.js"
+          crossOrigin="anonymous"></script>
+      </head>
+      <body className={inter.className}>
+        <ContextProvider>
+          <GlobalStylesProvider>
+            <Sidebar />
+            {children}
+          </GlobalStylesProvider>
+        </ContextProvider>
+      </body>
     </html>
   );
 }
