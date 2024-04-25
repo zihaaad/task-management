@@ -8,6 +8,7 @@ import {IMenu} from "@/app/types/menuType";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {logout} from "@/app/utils/icons";
+import {SignOutButton, UserButton} from "@clerk/nextjs";
 
 export default function Sidebar() {
   const {theme} = useGlobalState();
@@ -25,6 +26,8 @@ export default function Sidebar() {
         <div className="profile-overlay"></div>
         <div className="image">
           <Image width={70} height={70} src={"/pr1.jpg"} alt="profile" />
+
+          {/* <UserButton /> */}
         </div>
         <h1>
           <span>Zihadul</span>
@@ -45,7 +48,7 @@ export default function Sidebar() {
       </ul>
       <button className="font-semibold my-8 px-10 text-gray-200 flex gap-3 items-center">
         {" "}
-        {logout} Sign Out
+        {logout} <SignOutButton />
       </button>
     </SidebarStyles>
   );
