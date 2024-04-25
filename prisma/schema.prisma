@@ -11,8 +11,8 @@ model task {
   id          String   @id @default(cuid()) @map("_id")
   title       String
   description String?
-  data        String
-  idCompleted Boolean  @default(false)
+  date        String
+  isCompleted Boolean  @default(false)
   isImportant Boolean  @default(false)
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @default(now()) @map("updated_at")

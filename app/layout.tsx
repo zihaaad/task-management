@@ -4,7 +4,7 @@ import "./globals.css";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import GlobalStylesProvider from "./providers/GlobalStylesProvider";
 import ContextProvider from "./providers/ContextProvider";
-import {ClerkProvider, RedirectToSignIn, RedirectToSignUp} from "@clerk/nextjs";
+import {ClerkProvider, RedirectToSignIn} from "@clerk/nextjs";
 import {auth} from "@clerk/nextjs/server";
 
 const poppins = Poppins({subsets: ["latin"], weight: "400"});
@@ -33,6 +33,7 @@ export default async function RootLayout({
           <ContextProvider>
             <GlobalStylesProvider>
               {userId ? <Sidebar /> : <RedirectToSignIn />}
+
               <div className="w-full"> {children}</div>
             </GlobalStylesProvider>
           </ContextProvider>

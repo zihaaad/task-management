@@ -2,13 +2,14 @@
 import React from "react";
 import styled from "styled-components";
 import {useGlobalState} from "../context/globalProvider";
+import CreateContent from "../Components/Modals/CreateContent";
 
 export default function Tasks() {
   const {theme} = useGlobalState();
 
   return (
     <TaskStyles theme={theme}>
-      <h1>Tasks</h1>
+      <CreateContent />
     </TaskStyles>
   );
 }
