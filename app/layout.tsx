@@ -6,7 +6,6 @@ import GlobalStylesProvider from "./providers/GlobalStylesProvider";
 import ContextProvider from "./providers/ContextProvider";
 import {ClerkProvider, RedirectToSignIn, RedirectToSignUp} from "@clerk/nextjs";
 import {auth} from "@clerk/nextjs/server";
-import {currentUser} from "@clerk/nextjs/server";
 
 const poppins = Poppins({subsets: ["latin"], weight: "400"});
 
