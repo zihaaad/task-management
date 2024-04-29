@@ -1,8 +1,8 @@
 "use client";
 
-import themes from "@/app/context/themes";
+import {useGlobalState} from "@/app/context/globalProvider";
 import axios from "axios";
-import {FormEvent, useState} from "react";
+import {useState} from "react";
 import {toast} from "sonner";
 import styled from "styled-components";
 
@@ -13,7 +13,9 @@ export default function CreateContent() {
   const [completed, setCompleted] = useState(Boolean);
   const [important, setImportant] = useState(Boolean);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const {allTasks} = useGlobalState();
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     const task = {
       title,
@@ -22,6 +24,8 @@ export default function CreateContent() {
       completed,
       important,
     };
+
+    console.log(task);
     try {
       const res = await axios.post("/api/tasks", task);
 
@@ -30,6 +34,7 @@ export default function CreateContent() {
       }
 
       toast.success("Task Created Successfully");
+      allTasks();
 
       console.log(res);
     } catch (error) {
@@ -39,9 +44,9 @@ export default function CreateContent() {
   };
 
   return (
-    <CreateContentStyled theme={themes}>
+    <div>
       <h1>Create a Task</h1>
-      <form onSubmit={handleSubmit}>
+      <CreateContentStyled onSubmit={handleSubmit}>
         <div className="input-control">
           <label htmlFor="title">Title</label>
           <input
@@ -55,9 +60,8 @@ export default function CreateContent() {
         </div>
         <div className="input-control">
           <label htmlFor="description">Description</label>
-          <input
+          <textarea
             className="text-black"
-            type="text"
             value={description}
             name="description"
             onChange={(e) => setDescription(e.target.value)}
@@ -68,7 +72,7 @@ export default function CreateContent() {
           <label htmlFor="date">Date</label>
           <input
             className="text-black"
-            type="date"
+            type="datetime-local"
             value={date}
             name="date"
             onChange={(e) => setDate(e.target.value)}
@@ -93,10 +97,12 @@ export default function CreateContent() {
           />
         </div>
         <div className="submit-btn">
-          <input type="submit" value="Submit" />
+          <button type="submit" value="Submit">
+            Submit
+          </button>
         </div>
-      </form>
-    </CreateContentStyled>
+      </CreateContentStyled>
+    </div>
   );
 }
 

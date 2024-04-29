@@ -6,6 +6,7 @@ import GlobalStylesProvider from "./providers/GlobalStylesProvider";
 import ContextProvider from "./providers/ContextProvider";
 import {ClerkProvider, RedirectToSignIn} from "@clerk/nextjs";
 import {auth} from "@clerk/nextjs/server";
+import NextTopLoader from "nextjs-toploader";
 
 const poppins = Poppins({subsets: ["latin"], weight: "400"});
 
@@ -30,6 +31,11 @@ export default async function RootLayout({
             crossOrigin="anonymous"></script>
         </head>
         <body className={poppins.className}>
+          <NextTopLoader
+            height={2}
+            color="#27AE60"
+            easing="cubic-bezier(.17,.67,.83,.67)"
+          />
           <ContextProvider>
             <GlobalStylesProvider>
               {userId ? <Sidebar /> : <RedirectToSignIn />}

@@ -6,7 +6,7 @@ import React from "react";
 import styled from "styled-components";
 
 interface Props {
-  _id: string;
+  id: string;
   title: string;
   description: string;
   date: string;
@@ -15,9 +15,9 @@ interface Props {
 }
 
 export default function TaskItem({task}: {task: Props}) {
-  const {theme} = useGlobalState();
+  const {theme, deleteTask} = useGlobalState();
   return (
-    <TaskItemStyles theme={theme} className="task" key={task._id}>
+    <TaskItemStyles theme={theme} className="task" key={task.id}>
       <h2 className="font-semibold text-xl"> {task.title}</h2>
       <p>{task.description}</p>
       <p className="date">{dateFormat(task.date)}</p>
@@ -28,7 +28,9 @@ export default function TaskItem({task}: {task: Props}) {
           <button className="incomplete">Incomplete</button>
         )}
         <button className="edit">{edit}</button>
-        <button className="trash">{trash}</button>
+        <button onClick={() => deleteTask(task.id)} className="trash">
+          {trash}
+        </button>
       </div>
     </TaskItemStyles>
   );
@@ -81,9 +83,8 @@ const TaskItemStyles = styled.div`
     padding: 0.4rem 1rem;
     background: ${(props) => props.theme.colorDanger};
     border-radius: 30px;
-
-    .completed {
-      background: ${(props) => props.theme.colorGreenDark};
-    }
+  }
+  .completed {
+    background: ${(props) => props.theme.colorGreenDark};
   }
 `;

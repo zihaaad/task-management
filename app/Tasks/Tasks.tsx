@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {useGlobalState} from "../context/globalProvider";
 import TaskItem from "../Components/TaskItem/TaskItem";
 import {plus} from "../utils/icons";
+import CreateContent from "../Components/Modals/CreateContent";
 
 interface Props {
   title: string;
@@ -11,19 +12,26 @@ interface Props {
 }
 
 export default function Tasks({title, tasks}: Props) {
-  const {theme} = useGlobalState();
+  const {theme, isLoading} = useGlobalState();
+
   return (
     <TaskStyled theme={theme}>
       <h1>{title}</h1>
-      <div className="tasks grid">
-        {tasks?.map((task) => (
-          <TaskItem key={task.id} task={{...task}} />
-        ))}
-        <button className="create-task">
-          {plus}
-          Add New Task
-        </button>
-      </div>
+      {!isLoading ? (
+        <div className="tasks grid">
+          {tasks?.map((task) => (
+            <TaskItem key={task.id} task={{...task}} />
+          ))}
+          <button className="create-task">
+            {plus}
+            Add New Task
+          </button>
+        </div>
+      ) : (
+        <div className="tasks-loader w-full h-full flex items-center justify-center">
+          <span className="loader"></span>
+        </div>
+      )}
     </TaskStyled>
   );
 }
