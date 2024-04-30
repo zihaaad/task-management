@@ -13,14 +13,32 @@ export const GlobalProvider = ({children}) => {
   const [selectedTheme, setSelectedTheme] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const theme = themes[selectedTheme];
+  const [modal, setModal] = useState(false);
 
   const [tasks, setTasks] = useState([]);
+  console.log(modal);
+
+  const openModal = () => {
+    setModal(true);
+  };
+
+  const closeModal = () => {
+    setModal(false);
+  };
 
   const allTasks = async () => {
     setIsLoading(true);
     try {
       const res = await axios.get("/api/tasks");
-      setTasks(res.data);
+
+      const sorted = res.data.sort((a, b) => {
+        return (
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+      });
+
+      setTasks(sorted);
+
       setIsLoading(false);
     } catch (error) {
       console.log(error);
@@ -47,10 +65,8 @@ export const GlobalProvider = ({children}) => {
   };
 
   const updateTask = async (task) => {
-    console.log(task);
     try {
       const res = await axios.put(`/api/tasks`, task);
-      console.log(res);
       if (res.data) {
         toast.success("Task Updated Successfully");
         allTasks();
@@ -69,13 +85,16 @@ export const GlobalProvider = ({children}) => {
       value={{
         theme,
         tasks,
+        isLoading,
         allTasks,
         deleteTask,
         updateTask,
         completedTasks,
         inCompleteTasks,
         importantTasks,
-        isLoading,
+        modal,
+        openModal,
+        closeModal,
       }}>
       <GlobalUpdateContext.Provider value={{}}>
         <Toaster position="top-center" richColors />

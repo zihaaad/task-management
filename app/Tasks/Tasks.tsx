@@ -5,6 +5,7 @@ import {useGlobalState} from "../context/globalProvider";
 import TaskItem from "../Components/TaskItem/TaskItem";
 import {plus} from "../utils/icons";
 import CreateContent from "../Components/Modals/CreateContent";
+import Modal from "../Components/Modals/Modal";
 
 interface Props {
   title: string;
@@ -12,17 +13,18 @@ interface Props {
 }
 
 export default function Tasks({title, tasks}: Props) {
-  const {theme, isLoading} = useGlobalState();
+  const {theme, isLoading, openModal, closeModal, modal} = useGlobalState();
 
   return (
     <TaskStyled theme={theme}>
+      {modal && <Modal content={<CreateContent />} />}
       <h1>{title}</h1>
       {!isLoading ? (
         <div className="tasks grid">
           {tasks?.map((task) => (
             <TaskItem key={task.id} task={{...task}} />
           ))}
-          <button className="create-task">
+          <button onClick={openModal} className="create-task">
             {plus}
             Add New Task
           </button>
