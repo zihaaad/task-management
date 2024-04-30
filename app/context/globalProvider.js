@@ -27,6 +27,10 @@ export const GlobalProvider = ({children}) => {
     }
   };
 
+  const completedTasks = tasks.filter((task) => task.isCompleted === true);
+  const importantTasks = tasks.filter((task) => task.isImportant === true);
+  const inCompleteTasks = tasks.filter((task) => task.isCompleted === false);
+
   const deleteTask = async (id) => {
     setIsLoading(true);
     try {
@@ -42,9 +46,19 @@ export const GlobalProvider = ({children}) => {
     }
   };
 
-  const completedTasks = tasks.filter((task) => task.isCompleted === true);
-  const importantTasks = tasks.filter((task) => task.isImportant === true);
-  const inCompleteTasks = tasks.filter((task) => task.isCompleted === false);
+  const updateTask = async (task) => {
+    console.log(task);
+    try {
+      const res = await axios.put(`/api/tasks`, task);
+      console.log(res);
+      if (res.data) {
+        toast.success("Task Updated Successfully");
+        allTasks();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   React.useEffect(() => {
     if (user) allTasks();
@@ -57,6 +71,7 @@ export const GlobalProvider = ({children}) => {
         tasks,
         allTasks,
         deleteTask,
+        updateTask,
         completedTasks,
         inCompleteTasks,
         importantTasks,
