@@ -1,7 +1,6 @@
 "use client";
 import React from "react";
 import {GlobalProvider} from "../context/globalProvider";
-
 interface Props {
   children: React.ReactNode;
 }
@@ -12,7 +11,7 @@ export default function ContextProvider({children}: Props) {
   React.useEffect(() => {
     setTimeout(() => {
       setIsReady(true);
-    }, 200);
+    }, 250);
   }, []);
 
   if (!isReady) {

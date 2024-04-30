@@ -42,12 +42,26 @@ export const GlobalProvider = ({children}) => {
     }
   };
 
+  const completedTasks = tasks.filter((task) => task.isCompleted === true);
+  const importantTasks = tasks.filter((task) => task.isImportant === true);
+  const inCompleteTasks = tasks.filter((task) => task.isCompleted === false);
+
   React.useEffect(() => {
-    if (user) return allTasks();
+    if (user) allTasks();
   }, [user]);
+
   return (
     <GlobalContext.Provider
-      value={{theme, tasks, allTasks, deleteTask, isLoading}}>
+      value={{
+        theme,
+        tasks,
+        allTasks,
+        deleteTask,
+        completedTasks,
+        inCompleteTasks,
+        importantTasks,
+        isLoading,
+      }}>
       <GlobalUpdateContext.Provider value={{}}>
         <Toaster position="top-center" richColors />
         {children}

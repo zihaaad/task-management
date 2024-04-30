@@ -21,7 +21,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const {userId} = auth();
-
   return (
     <ClerkProvider>
       <html lang="en">
@@ -38,7 +37,7 @@ export default async function RootLayout({
           />
           <ContextProvider>
             <GlobalStylesProvider>
-              {userId ? <Sidebar /> : <RedirectToSignIn />}
+              {!userId ? <RedirectToSignIn /> : <Sidebar />}
               <div className="w-full"> {children}</div>
             </GlobalStylesProvider>
           </ContextProvider>

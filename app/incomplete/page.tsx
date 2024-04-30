@@ -1,7 +1,14 @@
 "use client";
-import {auth} from "@clerk/nextjs/server";
-import React from "react";
 
-export default function Incomplete() {
-  return <div>Incomplete</div>;
+import Tasks from "../Tasks/Tasks";
+import {useGlobalState} from "../context/globalProvider";
+
+export default function InComplete() {
+  const {inCompleteTasks} = useGlobalState();
+
+  return (
+    <>
+      <Tasks tasks={inCompleteTasks} title="Incomplete Tasks" />
+    </>
+  );
 }

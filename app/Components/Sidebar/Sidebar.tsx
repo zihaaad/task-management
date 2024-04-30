@@ -8,10 +8,11 @@ import {IMenu} from "@/app/types/menuType";
 import Link from "next/link";
 import {usePathname, useRouter} from "next/navigation";
 import {logout} from "@/app/utils/icons";
-import {SignOutButton, UserButton} from "@clerk/nextjs";
+import {SignOutButton, UserButton, useUser} from "@clerk/nextjs";
 
 export default function Sidebar() {
   const {theme} = useGlobalState();
+  const {user} = useUser();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -24,20 +25,26 @@ export default function Sidebar() {
     <SidebarStyles theme={theme}>
       <div className="profile">
         <div className="profile-overlay"></div>
-        <div className="image">
-          <Image width={70} height={70} src={"/pr1.jpg"} alt="profile" />
-
-          {/* <UserButton /> */}
-        </div>
-        <h1>
-          <span>Zihadul</span>
-          <span>Islam</span>
+        <Link href={"/user-profile"}>
+          <div className="image">
+            <Image
+              width={70}
+              height={70}
+              src={`${user?.imageUrl ? user?.imageUrl : "/pr1.jpg"}`}
+              alt="profile"
+            />
+          </div>
+        </Link>
+        <h1 className="line-clamp-1">
+          <span>{user?.firstName}</span>
+          <span>{user?.lastName}</span>
         </h1>
       </div>
       <ul className="nav-items">
         {menu.map((item: IMenu) => {
           return (
             <li
+              key={item.id}
               className={`nav-item ${pathname === item.link && "active"}`}
               onClick={() => handleClick(item.link)}>
               {item.icon}
@@ -46,10 +53,10 @@ export default function Sidebar() {
           );
         })}
       </ul>
-      <button className="font-semibold my-8 px-10 text-gray-200 flex gap-3 items-center">
+      <div className="font-semibold my-8 ml-10 text-gray-200 flex gap-3 items-center cursor-pointer w-fit">
         {" "}
         {logout} <SignOutButton />
-      </button>
+      </div>
     </SidebarStyles>
   );
 }
